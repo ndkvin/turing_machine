@@ -36,33 +36,35 @@ export default function Home() {
   const [secondInput, setSecondInput] = useState(0)
   const [result, setResult] = useState(0)
   const [active, setActive] = useState(1)
-  const [state, setState] = useState(0)
-  const [tape, setTape] = useState(["B", "B","B","B"])
-  const [head, setHead] = useState(0)
+  const [tape1, setTape1] = useState(["B","B","B","B"])
+  const [tape2, setTape2] = useState(["B","B","B","B"])
 
   const createTape = () => {
-    setTape(["B", "B"])
+    setTape1(["B", "B"])
+    setTape2(["B", "B", "B"]);
     for (let i = 0; i < Math.abs(firstInput); i++) {
       if (firstInput < 0) {
-        setTape(prev => [...prev, "0"]);
+        setTape1(prev => [...prev, "0"]);
       } else {
-        setTape(prev => [...prev, "1"]);
+        setTape1(prev => [...prev, "1"]);
       }
+      setTape2(prev => [...prev, "B"]);
     }
-    setTape(prev => [...prev, "C"]);
+    setTape1(prev => [...prev, "C"]);
     for (let j = 0; j < Math.abs(secondInput); j++) {
       if (secondInput > 0) {
-        setTape(prev => [...prev, "1"]);
+        setTape1(prev => [...prev, "1"]);
       } else {
-        setTape(prev => [...prev, "0"]);
+        setTape1(prev => [...prev, "0"]);
       }
+      setTape2(prev => [...prev, "B"]);
     }
-    setTape(prev => [...prev, "B", "B"]);
+    setTape1(prev => [...prev, "B", "B"]);
+    setTape2(prev => [...prev, "B", "B"]);
   }
 
-  const calculate = () => {
+  const calculate =  () => {
     createTape()
-    console.log(tape)
   }
 
   return (
@@ -82,7 +84,7 @@ export default function Home() {
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
               />
-              <span class="input-group-text">+</span>
+              <span className="input-group-text">+</span>
               <input
                 type="number"
                 className="form-control"
@@ -114,6 +116,7 @@ export default function Home() {
               placeholder="Result"
               aria-label="Result"
               value={result}
+              onChange={e => setResult(e.target.value)}
             />
           </div>
         </div>
@@ -121,7 +124,12 @@ export default function Home() {
         <div className="row mt-3">
           <div className="mx-auto" style={styles.tape}>
               {
-                tape.map((tape, i) => <div key={i}  style={(i == active) ? styles.cellActive : styles.cell}>{tape}</div>)
+                tape1.map((tape, i) => <div key={i}  style={(i == active) ? styles.cellActive : styles.cell}>{tape}</div>)
+              }
+          </div>
+          <div className="mx-auto" style={styles.tape}>
+              {
+                tape2.map((tape, i) => <div key={i}  style={(i == active) ? styles.cellActive : styles.cell}>{tape}</div>)
               }
           </div>
         </div>
