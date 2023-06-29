@@ -1,4 +1,4 @@
-const addition = {
+const substraction = {
   "q0" : {
     "0B": {
       next: 'q0',
@@ -159,4 +159,4 @@ const addition = {
   },
 }
 
-export default addition;
+export default substraction;
