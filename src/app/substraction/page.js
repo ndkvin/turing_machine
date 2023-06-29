@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import substraction from '../../state/substraction';
+import Link from 'next/link';
 
 const styles = {
   tape: {
@@ -182,6 +183,9 @@ export default function Home() {
   return (
     <>
       <div className="container">
+        <Link href="/" className="btn btn-primary mt-5">
+          Home
+        </Link>
         <h1 className="d-flex justify-content-center mt-5">
           Substraction Turing Machine
         </h1>
@@ -255,25 +259,25 @@ export default function Home() {
         </div>
         <div className="row mt-3">
           <div className="col-6 mx-auto">
-            <label  className="form-label">Speed</label>
+            <label className="form-label">Speed</label>
             <div className='d-flex'>
-            <p>200ms</p>
-            <input 
-              type="range" 
-              value={speed} 
-              min="200"
-              max="2000"
-              onChange={e => setSpeed(e.target.value)} 
-              className="form-range" id="customRange1" 
-            />
-            <p>2000ms</p>
+              <p>200ms</p>
+              <input
+                type="range"
+                value={speed}
+                min="200"
+                max="2000"
+                onChange={e => setSpeed(e.target.value)}
+                className="form-range" id="customRange1"
+              />
+              <p>2000ms</p>
             </div>
           </div>
         </div>
         <div className="row mt-3">
           <div className="mx-auto" style={styles.tape} ref={tapeContainer1Refs}>
             {
-              tape1.map((tape, i) => <div key={i}  style={(i == active1) ? styles.cellActive : styles.cell}>{tape}</div>)
+              tape1.map((tape, i) => <div key={i} style={(i == active1) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
           <div className="mx-auto" style={styles.tape} ref={tapeContainer2Refs}>

@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import addition from '../../state/addition';
+import Link from 'next/link';
 
 
 const styles = {
@@ -11,7 +12,7 @@ const styles = {
     width: "800px",
     height: "80px",
     border: "1px solid black",
-    overflowX: "scroll",
+    overflowX: "hidden",
   },
   cell: {
     minWidth: "60px",
@@ -45,11 +46,34 @@ export default function Home() {
   const [tape2, setTape2] = useState([])
   const [tape3, setTape3] = useState([])
   const [isCalculate, setIsCalculate] = useState(false)
+  const [speed, setSpeed] = useState(500)
+  const tapeContainer1Refs = useRef(null);
+  const tapeContainer2Refs = useRef(null);
+  const tapeContainer3Refs = useRef(null);
+  const scrollLeft = (ref) => {
+    ref.current.scrollBy({
+      top: 0,
+      left: -50,
+      behavior: 'smooth',
+    });
+
+    console.log("left")
+  };
+
+  const scrollRight = (ref) => {
+    ref.current.scrollBy({
+      top: 0,
+      left: 50,
+      behavior: 'smooth',
+    });
+
+    console.log("right")
+  };
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       turingMachine();
-    }, 1000);
+    }, speed);
     return () => clearTimeout(timeout);
   }, [isCalculate])
 
@@ -106,8 +130,8 @@ export default function Home() {
   }
 
   const turingMachine = () => {
-    if(tape1.length == 0) return
-  
+    if (tape1.length == 0) return
+
     // get value from tape 1 and tape 2
     let val1 = tape1[active1];
     let val2 = tape2[active2];
@@ -135,22 +159,28 @@ export default function Home() {
     // move tape 1
     if (next.state[0].move == "R") {
       setActive1(prev => prev + 1);
+      scrollRight(tapeContainer1Refs)
     } else if (next.state[0].move == "L") {
       setActive1(prev => prev - 1);
+      scrollLeft(tapeContainer1Refs)
     }
 
     // move tape 2
     if (next.state[1].move == "R") {
       setActive2(prev => prev + 1);
+      scrollRight(tapeContainer2Refs)
     } else if (next.state[1].move == "L") {
       setActive2(prev => prev - 1);
+      scrollLeft(tapeContainer2Refs)
     }
 
     // move tape 2
     if (next.state[2].move == "R") {
       setActive3(prev => prev + 1);
+      scrollRight(tapeContainer3Refs)
     } else if (next.state[2].move == "L") {
       setActive3(prev => prev - 1);
+      scrollLeft(tapeContainer3Refs)
     }
 
 
@@ -179,6 +209,9 @@ export default function Home() {
   return (
     <>
       <div className="container">
+        <Link href="/" className="btn btn-primary mt-5">
+          Home
+        </Link>
         <h1 className="d-flex justify-content-center mt-5">
           Addition Turing Machine
         </h1>
@@ -237,7 +270,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-
         <div className="row mt-3">
           <div className="col-3 mx-auto">
             <input
@@ -250,19 +282,35 @@ export default function Home() {
             />
           </div>
         </div>
-
         <div className="row mt-3">
-          <div className="mx-auto" style={styles.tape}>
+          <div className="col-6 mx-auto">
+            <label className="form-label">Speed</label>
+            <div className='d-flex'>
+              <p>200ms</p>
+              <input
+                type="range"
+                value={speed}
+                min="200"
+                max="2000"
+                onChange={e => setSpeed(e.target.value)}
+                className="form-range" id="customRange1"
+              />
+              <p>2000ms</p>
+            </div>
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="mx-auto" style={styles.tape} ref={tapeContainer1Refs}>
             {
               tape1.map((tape, i) => <div key={i} style={(i == active1) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
-          <div className="mx-auto" style={styles.tape}>
+          <div className="mx-auto" style={styles.tape} ref={tapeContainer2Refs}>
             {
               tape2.map((tape, i) => <div key={i} style={(i == active2) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
-          <div className="mx-auto" style={styles.tape}>
+          <div className="mx-auto" style={styles.tape} ref={tapeContainer3Refs}>
             {
               tape3.map((tape, i) => <div key={i} style={(i == active3) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
