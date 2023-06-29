@@ -1,42 +1,70 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react';
-import addition from '../../state/addition';
+import binerMultitape from '../../state/binerMultitape';
 import Link from 'next/link';
 
 
 const styles = {
+
   tape: {
     display: "flex",
     alignItems: "center",
     width: "800px",
     height: "80px",
-    border: "1px solid black",
+    border: "3px solid #eaeaea",
+    borderRadius: "20px",
     overflowX: "hidden",
+    overflowY: "hidden",
+    background: "#ffffff",
+    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+    transition: "box-shadow 0.3s ease",
   },
   cell: {
     minWidth: "60px",
     height: "60px",
-    border: "1px solid black",
+    border: "2px solid #eaeaea",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    background: "#ffffff",
+    borderRadius: "10px",
+    margin: "2px",
+    transition: "background-color 0.3s ease",
+    color: "#333333",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
   },
   cellActive: {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#0D6EFD",
+    color: "#ffffff",
     minWidth: "60px",
     height: "60px",
-    border: "1px solid black",
+    border: "1px solid #333333",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  }
-}
+    background: "#0D6EFD",
+    borderRadius: "10px",
+    margin: "2px",
+    transition: "background-color 0.3s ease",
+    color: "#ffffff",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+};
+
+
+
+
+
+
+
 
 export default function Home() {
   const [firstInput, setFirstInput] = useState(0)
-  const [secondInput, setSecondInput] = useState(0)
   const [result, setResult] = useState(0)
   const [state, setState] = useState('q0')
   const [active1, setActive1] = useState(2)
@@ -50,7 +78,7 @@ export default function Home() {
   const tapeContainer1Refs = useRef(null);
   const tapeContainer2Refs = useRef(null);
   const tapeContainer3Refs = useRef(null);
-  const [trasition, setTrasition] = useState("")
+  const [transition, settransition] = useState("")
 
   const scrollLeft = (ref) => {
     ref.current.scrollBy({
@@ -89,42 +117,30 @@ export default function Home() {
     setState('q0')
     setResult(0)
     setFirstInput(0)
-    setSecondInput(0)
   }
 
   const createTape = () => {
     // reset to default
-    setActive1(2)
-    setActive2(2)
-    setActive3(2)
-    setTape1(["B", "B"])
+    setActive1(6)
+    setActive2(6)
+    setActive3(6)
+    setTape1(["B", "B", "B","B", "B", "B"])
     setTape2(["B", "B", "B"]);
     setTape3(["B", "B", "B"]);
     setState('q0')
     setResult(0)
 
     for (let i = 0; i < Math.abs(firstInput); i++) {
-      if (firstInput < 0) {
-        setTape1(prev => [...prev, "0"]);
-      } else {
+      if (firstInput > 0) {
         setTape1(prev => [...prev, "1"]);
       }
       setTape2(prev => [...prev, "B"]);
       setTape3(prev => [...prev, "B"]);
     }
-    setTape1(prev => [...prev, "C"]);
-    for (let j = 0; j < Math.abs(secondInput); j++) {
-      if (secondInput > 0) {
-        setTape1(prev => [...prev, "1"]);
-      } else {
-        setTape1(prev => [...prev, "0"]);
-      }
-      setTape2(prev => [...prev, "B"]);
-      setTape3(prev => [...prev, "B"]);
-    }
+
     setTape1(prev => [...prev, "B", "B"]);
-    setTape2(prev => [...prev, "B", "B"]);
-    setTape3(prev => [...prev, "B", "B"]);
+    setTape2(prev => [...prev, "B", "B","B", "B","B", "B","B", "B"]);
+    setTape3(prev => [...prev, "B", "B","B", "B","B", "B", "B", "B"]);
   }
 
   const calculate = () => {
@@ -140,11 +156,12 @@ export default function Home() {
     let val3 = tape3[active3];
     const concat = val1 + val2 + val3;
 
-    const next = addition[state][concat];
+    const next = binerMultitape[state][concat];
     const oldState = state;
-    //set trasition
-    const newTrasition = `${concat}/${next.state[0].write}${next.state[1].write}${next.state[2].write},${next.state[0].move}${next.state[1].move}${next.state[2].move},(${oldState}->${next.next})`;
-    setTrasition(newTrasition)
+
+    //set transition
+    const newtransition = `${concat}/${next.state[0].write}${next.state[1].write}${next.state[2].write},${next.state[0].move}${next.state[1].move}${next.state[2].move},(${oldState}->${next.next})`;
+    settransition(newtransition)
 
     // write new tape 1
     const newTape1 = [...tape1];
@@ -193,7 +210,7 @@ export default function Home() {
     setState(next.next);
 
     // when in final state count the result
-    if (next.next == "q3") {
+    if (next.next == "q9") {
       countResult()
       return
     }
@@ -205,9 +222,7 @@ export default function Home() {
     for (let i = 0; i < tape2.length; i++) {
       if (tape3[i] == "1") {
         count++;
-      } else if (tape3[i] == "0") {
-        count--;
-      }
+      } 
     }
     setResult(count)
   }
@@ -218,7 +233,7 @@ export default function Home() {
           Home
         </Link>
         <h1 className="d-flex justify-content-center mt-5">
-          Addition Turing Machine
+          Binary Logarithm with Multitapes Turing Machine
         </h1>
         <div className="row mt-5">
           <div className="col-6 mx-auto">
@@ -230,15 +245,6 @@ export default function Home() {
                 aria-label="First Input"
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
-              />
-              <span className="input-group-text">+</span>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Second Input"
-                aria-label="Second Input"
-                value={secondInput}
-                onChange={e => setSecondInput(e.target.value)}
               />
             </div>
           </div>
@@ -269,7 +275,7 @@ export default function Home() {
               onClick={turingMachine}
 
               // disable if state is final state
-              disabled={state == "q3" ? true : false}
+              disabled={state == "q9" ? true : false}
             >
               Simulate
             </button>
@@ -277,14 +283,14 @@ export default function Home() {
         </div>
         <div className="row mt-3">
         <div className="col-3 mx-auto">
-            <label className="form-label">Trasition</label>
+            <label className="form-label">Transition</label>
             <input
               type="string"
               className="form-control"
-              placeholder="Trasition"
-              aria-label="Trasition"
-              value={trasition}
-              onChange={e => setTrasition(e.target.value)}
+              placeholder="transition"
+              aria-label="transition"
+              value={transition}
+              onChange={e => settransition(e.target.value)}
             />
           </div>
           <div className="col-3 mx-auto">
