@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import substraction  from '../../state/substraction';
+import addition from '../../state/addition';
 
 
 const styles = {
@@ -40,14 +40,17 @@ export default function Home() {
   const [state, setState] = useState('q0')
   const [active1, setActive1] = useState(2)
   const [active2, setActive2] = useState(2)
+  const [active3, setActive3] = useState(2)
   const [tape1, setTape1] = useState([])
   const [tape2, setTape2] = useState([])
-
-  const reset =   () => {
+  const [tape3, setTape3] = useState([])
+  const reset = () => {
     setActive1(2)
+    setActive2(2)
     setActive2(2)
     setTape1([])
     setTape2([]);
+    setTape3([]);
     setState('q0')
     setResult(0)
     setFirstInput(0)
@@ -58,8 +61,10 @@ export default function Home() {
     // reset to default
     setActive1(2)
     setActive2(2)
+    setActive3(2)
     setTape1(["B", "B"])
     setTape2(["B", "B", "B"]);
+    setTape3(["B", "B", "B"]);
     setState('q0')
     setResult(0)
 
@@ -70,6 +75,7 @@ export default function Home() {
         setTape1(prev => [...prev, "1"]);
       }
       setTape2(prev => [...prev, "B"]);
+      setTape3(prev => [...prev, "B"]);
     }
     setTape1(prev => [...prev, "C"]);
     for (let j = 0; j < Math.abs(secondInput); j++) {
@@ -79,9 +85,11 @@ export default function Home() {
         setTape1(prev => [...prev, "0"]);
       }
       setTape2(prev => [...prev, "B"]);
+      setTape3(prev => [...prev, "B"]);
     }
     setTape1(prev => [...prev, "B", "B"]);
     setTape2(prev => [...prev, "B", "B"]);
+    setTape3(prev => [...prev, "B", "B"]);
   }
 
   const calculate = () => {
@@ -90,55 +98,68 @@ export default function Home() {
 
   const turingMachine = () => {
 
-      // get value from tape 1 and tape 2
-      let val1 = tape1[active1];
-      let val2 = tape2[active2];
-      const concat = val1 + val2;
-      
-      const next = substraction[state][concat];
+    // get value from tape 1 and tape 2
+    let val1 = tape1[active1];
+    let val2 = tape2[active2];
+    let val3 = tape3[active3];
+    const concat = val1 + val2 + val3;
 
-      // write new tape 1
-      const newTape1 = [...tape1];
-      newTape1[active1] = next.state[0].write;
-      setTape1(newTape1);
+    console.log("concat", concat)
 
-      // write new tape 2
-      const newTape2 = [...tape2];
-      newTape2[active2] = next.state[1].write;
-      setTape2(newTape2);
+    const next = addition[state][concat];
 
-      // move tape 1
-      if (next.state[0].move == "R") {
-        setActive1(prev => prev + 1);
-      } else if (next.state[0].move == "L") {
-        setActive1(prev => prev - 1);
-      }
+    // write new tape 1
+    const newTape1 = [...tape1];
+    newTape1[active1] = next.state[0].write;
+    setTape1(newTape1);
 
-      // move tape 2
-      if (next.state[1].move == "R") {
-        setActive2(prev => prev + 1);
-      } else if (next.state[1].move == "L") {
-        setActive2(prev => prev - 1);
-      }
+    // write new tape 2
+    const newTape2 = [...tape2];
+    newTape2[active2] = next.state[1].write;
+    setTape2(newTape2);
+
+    const newTape3 = [...tape3];
+    newTape3[active3] = next.state[2].write;
+    setTape3(newTape3);
+
+    // move tape 1
+    if (next.state[0].move == "R") {
+      setActive1(prev => prev + 1);
+    } else if (next.state[0].move == "L") {
+      setActive1(prev => prev - 1);
+    }
+
+    // move tape 2
+    if (next.state[1].move == "R") {
+      setActive2(prev => prev + 1);
+    } else if (next.state[1].move == "L") {
+      setActive2(prev => prev - 1);
+    }
+
+    // move tape 2
+    if (next.state[2].move == "R") {
+      setActive3(prev => prev + 1);
+    } else if (next.state[2].move == "L") {
+      setActive3(prev => prev - 1);
+    }
 
 
+    // set state to next state
+    setState(next.next);
 
-      // set state to next state
-      setState(next.next);
-
-      // when in final state count the result
-      if (next.next == "q2") {
-        countResult()
-      }
+    // when in final state count the result
+    if (next.next == "q3") {
+      countResult()
+    }
 
   }
   const countResult = () => {
 
     let count = 0;
     for (let i = 0; i < tape2.length; i++) {
-      if (tape2[i] == "1") {
+      if (tape3[i] == "1") {
         count++;
-      } else if (tape2[i] == "0") {
+      } else if (tape3[i] == "0") {
         count--;
       }
     }
@@ -161,7 +182,7 @@ export default function Home() {
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
               />
-              <span className="input-group-text">-</span>
+              <span className="input-group-text">+</span>
               <input
                 type="number"
                 className="form-control"
@@ -199,7 +220,7 @@ export default function Home() {
               onClick={turingMachine}
 
               // disable if state is final state
-              disabled={state == "q2" ? true : false}
+              disabled={state == "q3" ? true : false}
             >
               Simulate
             </button>
@@ -228,6 +249,11 @@ export default function Home() {
           <div className="mx-auto" style={styles.tape}>
             {
               tape2.map((tape, i) => <div key={i} style={(i == active2) ? styles.cellActive : styles.cell}>{tape}</div>)
+            }
+          </div>
+          <div className="mx-auto" style={styles.tape}>
+            {
+              tape3.map((tape, i) => <div key={i} style={(i == active3) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
         </div>

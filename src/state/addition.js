@@ -1,321 +1,286 @@
-const additions = {
-  "q0" : {
-    "1BB" : {
-      next : 'q0',
+const addition = {
+  "q0": {
+    "1BB": {
+      next: 'q0',
       state: [
         {
-          write : '1',
-          move : 'R',
+          write: '1',
+          move: 'R',
         },
         {
-          write : '1',
-          move : 'R',
+          write: '1',
+          move: 'R',
         },
         {
-          write : 'B',
-          move : 'S',
+          write: 'B',
+          move: 'S',
         }
       ]
     },
-    "0BB" : {
-      next : 'q0',
+    "0BB": {
+      next: 'q0',
       state: [
         {
-          write : '0',
-          move : 'R',
+          write: '0',
+          move: 'R',
         },
         {
-          write : '0',
-          move : 'R',
+          write: '0',
+          move: 'R',
         },
         {
-          write : 'B',
-          move : 'S',
+          write: 'B',
+          move: 'S',
         }
       ]
     },
-    "CBB" : {
-      next : 'q1',
+    "CBB": {
+      next: 'q1',
       state: [
         {
-          write : 'C',
-          move : 'R',
+          write: 'C',
+          move: 'R',
         },
         {
-          write : 'B',
-          move : 'L',
+          write: 'B',
+          move: 'L',
         },
         {
-          write : 'B',
-          move : 'S',
+          write: 'B',
+          move: 'S',
         }
       ]
     }
   },
 
-  "q1" : {
-    "B1B" : {
+  "q1": {
+    "B1B": {
       next: 'q1',
-      state:[
+      state: [
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'L',
         },
         {
           write: '1',
-          move : 'R',  
+          move: 'R',
         },
-        
+
       ]
     },
 
-    "00B" : {
+    "00B": {
       next: 'q1',
-      state:[
+      state: [
         {
           write: '0',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'L',
         },
         {
           write: '0',
-          move : 'R',  
+          move: 'R',
         },
-        
+
       ]
     },
 
-    "11B" : {
+    "11B": {
       next: 'q1',
-      state:[
+      state: [
         {
           write: '1',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'L',
         },
         {
           write: '1',
-          move : 'R',  
+          move: 'R',
         },
-        
+
       ]
     },
 
-    "B0B" : {
+    "B0B": {
       next: 'q1',
-      state:[
+      state: [
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'L',
         },
         {
           write: '0',
-          move : 'R',  
+          move: 'R',
         },
-        
+
       ]
     },
 
-    "10B" : {
+    "10B": {
       next: 'q1',
-      state:[
+      state: [
         {
           write: '1',
-          move : 'R',  
+          move: 'R',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'L',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
-        
+
       ]
     },
 
-    "01B" : {
+    "01B": {
       next: 'q1',
-      state:[
+      state: [
         {
           write: '0',
-          move : 'R',  
+          move: 'R',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'L',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
-        
+
       ]
     },
 
-    "0BB" : {
+    "0BB": {
       next: 'q2',
-      state:[
+      state: [
         {
           write: '0',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
-        
+
       ]
     },
 
-    "1BB" : {
+    "1BB": {
       next: 'q2',
-      state:[
+      state: [
         {
           write: '1',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
-        
+
       ]
     },
 
-    "BBB" : {
+    "BBB": {
       next: 'q3',
-      state:[
+      state: [
         {
           write: 'B',
-          move : 'R',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'R',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'R',  
+          move: 'S',
         },
       ]
     }
   },
 
-  "q2" : {
-    "B0B" : {
+  "q2": {
+    "0BB": {
       next: 'q2',
-      state:[
+      state: [
         {
-          write: 'B',
-          move : 'S',  
+          write: '0',
+          move: 'R',
         },
         {
           write: 'B',
-          move : 'L',  
+          move: 'S',
         },
         {
           write: '0',
-          move : 'R',  
+          move: 'R',
         },
       ]
     },
 
-    "0BB" : {
+    "1BB": {
       next: 'q2',
-      state:[
+      state: [
         {
-          write: '0',
-          move : 'R',  
+          write: '1',
+          move: 'R',
         },
         {
           write: 'B',
-          move : 'S',  
+          move: 'S',
         },
         {
           write: '1',
-          move : 'R',  
+          move: 'R',
         },
       ]
     },
 
-    "0BB" : {
-      next: 'q2',
-      state:[
-        {
-          write: '0',
-          move : 'R',  
-        },
-        {
-          write: 'B',
-          move : 'S',  
-        },
-        {
-          write: '0',
-          move : 'R',  
-        },
-      ]
-    },
-
-    "1BB" : {
-      next: 'q2',
-      state:[
-        {
-          write: '1',
-          move : 'R',  
-        },
-        {
-          write: 'B',
-          move : 'S',  
-        },
-        {
-          write: '1',
-          move : 'R',  
-        },
-      ]
-    },
-
-    "BBB" : {
+    "BBB": {
       next: 'q3',
-      state:[
+      state: [
         {
           write: 'B',
-          move : 'R',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'R',  
+          move: 'S',
         },
         {
           write: 'B',
-          move : 'R',  
+          move: 'S',
         },
       ]
     }
   }
 }
 
-export default additions;
+
+export default addition;

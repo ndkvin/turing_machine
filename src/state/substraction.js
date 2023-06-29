@@ -122,11 +122,11 @@ const substraction = {
       state: [
         {
           write : 'B',
-          move : 'R',
+          move : 'S',
         },
         {
           write : 'B',
-          move : 'R',
+          move : 'S',
         }
       ]
     },
@@ -135,11 +135,11 @@ const substraction = {
       state: [
         {
           write : 'B',
-          move : 'R',
+          move : 'S',
         },
         {
           write : '0',
-          move : 'R',
+          move : 'S',
         }
       ]
     },
@@ -148,11 +148,11 @@ const substraction = {
       state: [
         {
           write : 'B',
-          move : 'R',
+          move : 'S',
         },
         {
           write : '1',
-          move : 'R',
+          move : 'S',
         }
       ]
     }
