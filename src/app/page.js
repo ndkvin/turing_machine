@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState } from 'react';
-
+import { useState } from 'react';
+import addition  from './state';
 const styles = {
-  tape : {
+  tape: {
     display: "flex",
     alignItems: "center",
     width: "800px",
@@ -35,13 +35,21 @@ export default function Home() {
   const [firstInput, setFirstInput] = useState(0)
   const [secondInput, setSecondInput] = useState(0)
   const [result, setResult] = useState(0)
-  const [active, setActive] = useState(1)
-  const [tape1, setTape1] = useState(["B","B","B","B"])
-  const [tape2, setTape2] = useState(["B","B","B","B"])
+  const [state, setState] = useState('q0')
+  const [active1, setActive1] = useState(2)
+  const [active2, setActive2] = useState(2)
+  const [tape1, setTape1] = useState([])
+  const [tape2, setTape2] = useState([])
 
   const createTape = () => {
+    // reset to default
+    setActive1(2)
+    setActive2(2)
     setTape1(["B", "B"])
     setTape2(["B", "B", "B"]);
+    setState('q0')
+    setResult(0)
+
     for (let i = 0; i < Math.abs(firstInput); i++) {
       if (firstInput < 0) {
         setTape1(prev => [...prev, "0"]);
@@ -63,15 +71,65 @@ export default function Home() {
     setTape2(prev => [...prev, "B", "B"]);
   }
 
-  const calculate =  () => {
+  const calculate = () => {
     createTape()
   }
 
+  const turingMachine = () => {
+      let val1 = tape1[active1];
+      let val2 = tape2[active2];
+      const concat = val1 + val2;
+      console.log(concat);
+      const next = addition[state][concat];
+
+      // move tape 1
+      if (next.state[0].move == "R") {
+        setActive1(prev => prev + 1);
+      } else if (next.state[0].move == "L") {
+        setActive1(prev => prev - 1);
+      }
+
+      // move tape 2
+      if (next.state[1].move == "R") {
+        setActive2(prev => prev + 1);
+      } else if (next.state[1].move == "L") {
+        setActive2(prev => prev - 1);
+      }
+
+      // write new tape 1
+      const newTape1 = [...tape1];
+      newTape1[active1] = next.state[0].write;
+      setTape1(newTape1);
+      console.log(newTape1)
+
+      // write new tape 2
+      const newTape2 = [...tape2];
+      newTape2[active2] = next.state[1].write;
+      setTape2(newTape2);
+      console.log(newTape2)
+      setState(next.next);
+      if (next.next == "q2") {
+        countResult()
+      }
+
+  }
+  const countResult = () => {
+
+    let count = 0;
+    for (let i = 0; i < tape2.length; i++) {
+      if (tape2[i] == "1") {
+        count++;
+      } else if (tape2[i] == "0") {
+        count--;
+      }
+    }
+    setResult(count)
+  }
   return (
     <>
       <div className="container">
         <h1 className="d-flex justify-content-center mt-5">
-          Turing Machine Penambahan
+          Turing Machine Pengurangan
         </h1>
         <div className="row mt-5">
           <div className="col-6 mx-auto">
@@ -84,7 +142,7 @@ export default function Home() {
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
               />
-              <span className="input-group-text">+</span>
+              <span className="input-group-text">-</span>
               <input
                 type="number"
                 className="form-control"
@@ -98,10 +156,30 @@ export default function Home() {
         </div>
         <div className="row mt-3">
           <div className="col-2 mx-auto">
-            <button 
-              type="button" 
-              className="btn btn-primary w-100" 
+            <button
+              type="button"
+              className="btn btn-primary w-100"
               onClick={calculate}
+            >
+              Set State
+            </button>
+          </div>
+          <div className="col-2 mx-auto">
+            <button
+              type="button"
+              className="btn btn-primary w-100"
+              onClick={turingMachine}
+            >
+              Reset
+            </button>
+          </div>
+          <div className="col-2 mx-auto">
+            <button
+              type="button"
+              className="btn btn-primary w-100"
+              onClick={turingMachine}
+              // disable if state is q2
+              disabled={state == "q2" ? true : false}
             >
               Simulate
             </button>
@@ -123,17 +201,18 @@ export default function Home() {
 
         <div className="row mt-3">
           <div className="mx-auto" style={styles.tape}>
-              {
-                tape1.map((tape, i) => <div key={i}  style={(i == active) ? styles.cellActive : styles.cell}>{tape}</div>)
-              }
+            {
+              tape1.map((tape, i) => <div key={i} style={(i == active1) ? styles.cellActive : styles.cell}>{tape}</div>)
+            }
           </div>
           <div className="mx-auto" style={styles.tape}>
-              {
-                tape2.map((tape, i) => <div key={i}  style={(i == active) ? styles.cellActive : styles.cell}>{tape}</div>)
-              }
+            {
+              tape2.map((tape, i) => <div key={i} style={(i == active2) ? styles.cellActive : styles.cell}>{tape}</div>)
+            }
           </div>
         </div>
       </div>
     </>
   )
 }
+

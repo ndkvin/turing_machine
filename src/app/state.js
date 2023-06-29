@@ -1,5 +1,5 @@
 const addition = {
-  q0 : {
+  "q0" : {
     "0B": {
       next: 'q0',
       state: [
@@ -38,7 +38,7 @@ const addition = {
       ]
     },
   },
-  q1 : {
+  "q1" : {
     "11" : {
       next: 'q1',
       state: [
@@ -159,4 +159,4 @@ const addition = {
   },
 }
 
-console.log(addition.q0["CB"])
+export default addition;
