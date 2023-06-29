@@ -50,10 +50,12 @@ export default function Home() {
   const tapeContainer1Refs = useRef(null);
   const tapeContainer2Refs = useRef(null);
   const tapeContainer3Refs = useRef(null);
+  const [trasition, setTrasition] = useState("")
+
   const scrollLeft = (ref) => {
     ref.current.scrollBy({
       top: 0,
-      left: -50,
+      left: -55,
       behavior: 'smooth',
     });
 
@@ -63,7 +65,7 @@ export default function Home() {
   const scrollRight = (ref) => {
     ref.current.scrollBy({
       top: 0,
-      left: 50,
+      left: 55,
       behavior: 'smooth',
     });
 
@@ -138,9 +140,11 @@ export default function Home() {
     let val3 = tape3[active3];
     const concat = val1 + val2 + val3;
 
-    console.log("concat", concat)
-
     const next = addition[state][concat];
+    const oldState = state;
+    //set trasition
+    const newTrasition = `${concat}/${next.state[0].write}${next.state[1].write}${next.state[2].write},${next.state[0].move}${next.state[1].move}${next.state[2].move},(${oldState}->${next.next})`;
+    setTrasition(newTrasition)
 
     // write new tape 1
     const newTape1 = [...tape1];
@@ -271,7 +275,19 @@ export default function Home() {
           </div>
         </div>
         <div className="row mt-3">
+        <div className="col-3 mx-auto">
+            <label className="form-label">Trasition</label>
+            <input
+              type="string"
+              className="form-control"
+              placeholder="Trasition"
+              aria-label="Trasition"
+              value={trasition}
+              onChange={e => setTrasition(e.target.value)}
+            />
+          </div>
           <div className="col-3 mx-auto">
+          <label className="form-label">Result</label>
             <input
               type="number"
               className="form-control"
@@ -284,7 +300,7 @@ export default function Home() {
         </div>
         <div className="row mt-3">
           <div className="col-6 mx-auto">
-            <label className="form-label">Speed</label>
+            <label className="form-label">Speed ({speed}ms)</label>
             <div className='d-flex'>
               <p>200ms</p>
               <input

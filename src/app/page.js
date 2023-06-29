@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <div className="container">
         <h1 className="d-flex justify-content-center mt-5">
-          Turing Machine Simulation By Kelompok 4
+          Turing Machine Simulation By Kelompok 5
         </h1>
         <div className="d-flex justify-content-center mt-5">
           <Link className="btn btn-primary me-2" href="/addition">
