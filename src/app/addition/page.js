@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import addition from '../../state/addition';
 
 
@@ -44,10 +44,19 @@ export default function Home() {
   const [tape1, setTape1] = useState([])
   const [tape2, setTape2] = useState([])
   const [tape3, setTape3] = useState([])
+  const [isCalculate, setIsCalculate] = useState(false)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      turingMachine();
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [isCalculate])
+
   const reset = () => {
     setActive1(2)
     setActive2(2)
-    setActive2(2)
+    setActive3(2)
     setTape1([])
     setTape2([]);
     setTape3([]);
@@ -97,7 +106,8 @@ export default function Home() {
   }
 
   const turingMachine = () => {
-
+    if(tape1.length == 0) return
+  
     // get value from tape 1 and tape 2
     let val1 = tape1[active1];
     let val2 = tape2[active2];
@@ -150,8 +160,9 @@ export default function Home() {
     // when in final state count the result
     if (next.next == "q3") {
       countResult()
+      return
     }
-
+    setIsCalculate(!isCalculate)
   }
   const countResult = () => {
 
@@ -169,7 +180,7 @@ export default function Home() {
     <>
       <div className="container">
         <h1 className="d-flex justify-content-center mt-5">
-          Substraction Turing Machine
+          Addition Turing Machine
         </h1>
         <div className="row mt-5">
           <div className="col-6 mx-auto">

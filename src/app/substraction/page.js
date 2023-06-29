@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react';
-import substraction  from '../../state/substraction';
-
+import { useEffect, useRef, useState } from 'react';
+import substraction from '../../state/substraction';
 
 const styles = {
   tape: {
@@ -11,7 +10,7 @@ const styles = {
     width: "800px",
     height: "80px",
     border: "1px solid black",
-    overflowX: "scroll",
+    overflowX: "hidden",
   },
   cell: {
     minWidth: "60px",
@@ -42,8 +41,39 @@ export default function Home() {
   const [active2, setActive2] = useState(2)
   const [tape1, setTape1] = useState([])
   const [tape2, setTape2] = useState([])
+  const [isCalculate, setIsCalculate] = useState(false)
+  const [speed, setSpeed] = useState(500)
+  const tapeContainer1Refs = useRef(null);
+  const tapeContainer2Refs = useRef(null);
 
-  const reset =   () => {
+  const scrollLeft = (ref) => {
+    ref.current.scrollBy({
+      top: 0,
+      left: -50,
+      behavior: 'smooth',
+    });
+
+    console.log("left")
+  };
+
+  const scrollRight = (ref) => {
+    ref.current.scrollBy({
+      top: 0,
+      left: 50,
+      behavior: 'smooth',
+    });
+
+    console.log("right")
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      turingMachine();
+    }, speed);
+    return () => clearTimeout(timeout);
+  }, [isCalculate])
+
+  const reset = () => {
     setActive1(2)
     setActive2(2)
     setTape1([])
@@ -89,49 +119,53 @@ export default function Home() {
   }
 
   const turingMachine = () => {
+    if (tape1.length == 0) return
+    // get value from tape 1 and tape 2
+    let val1 = tape1[active1];
+    let val2 = tape2[active2];
+    const concat = val1 + val2;
 
-      // get value from tape 1 and tape 2
-      let val1 = tape1[active1];
-      let val2 = tape2[active2];
-      const concat = val1 + val2;
-      
-      const next = substraction[state][concat];
+    const next = substraction[state][concat];
 
-      // write new tape 1
-      const newTape1 = [...tape1];
-      newTape1[active1] = next.state[0].write;
-      setTape1(newTape1);
+    // write new tape 1
+    const newTape1 = [...tape1];
+    newTape1[active1] = next.state[0].write;
+    setTape1(newTape1);
 
-      // write new tape 2
-      const newTape2 = [...tape2];
-      newTape2[active2] = next.state[1].write;
-      setTape2(newTape2);
+    // write new tape 2
+    const newTape2 = [...tape2];
+    newTape2[active2] = next.state[1].write;
+    setTape2(newTape2);
 
-      // move tape 1
-      if (next.state[0].move == "R") {
-        setActive1(prev => prev + 1);
-      } else if (next.state[0].move == "L") {
-        setActive1(prev => prev - 1);
-      }
+    // move tape 1
+    if (next.state[0].move == "R") {
+      setActive1(prev => prev + 1);
+      scrollRight(tapeContainer1Refs)
+    } else if (next.state[0].move == "L") {
+      setActive1(prev => prev - 1);
+      scrollLeft(tapeContainer1Refs)
+    }
 
-      // move tape 2
-      if (next.state[1].move == "R") {
-        setActive2(prev => prev + 1);
-      } else if (next.state[1].move == "L") {
-        setActive2(prev => prev - 1);
-      }
+    // move tape 2
+    if (next.state[1].move == "R") {
+      setActive2(prev => prev + 1);
+      scrollRight(tapeContainer2Refs)
+    } else if (next.state[1].move == "L") {
+      setActive2(prev => prev - 1);
+      scrollLeft(tapeContainer2Refs)
+    }
 
+    // set state to next state
+    setState(next.next);
 
-
-      // set state to next state
-      setState(next.next);
-
-      // when in final state count the result
-      if (next.next == "q2") {
-        countResult()
-      }
-
+    // when in final state count the result
+    if (next.next == "q2") {
+      countResult()
+      return
+    }
+    setIsCalculate(!isCalculate)
   }
+
   const countResult = () => {
 
     let count = 0;
@@ -144,6 +178,7 @@ export default function Home() {
     }
     setResult(count)
   }
+
   return (
     <>
       <div className="container">
@@ -218,16 +253,32 @@ export default function Home() {
             />
           </div>
         </div>
-
         <div className="row mt-3">
-          <div className="mx-auto" style={styles.tape}>
+          <div className="col-6 mx-auto">
+            <label  className="form-label">Speed</label>
+            <div className='d-flex'>
+            <p>200ms</p>
+            <input 
+              type="range" 
+              value={speed} 
+              min="200"
+              max="2000"
+              onChange={e => setSpeed(e.target.value)} 
+              className="form-range" id="customRange1" 
+            />
+            <p>2000ms</p>
+            </div>
+          </div>
+        </div>
+        <div className="row mt-3">
+          <div className="mx-auto" style={styles.tape} ref={tapeContainer1Refs}>
             {
-              tape1.map((tape, i) => <div key={i} style={(i == active1) ? styles.cellActive : styles.cell}>{tape}</div>)
+              tape1.map((tape, i) => <div key={i}  style={(i == active1) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
-          <div className="mx-auto" style={styles.tape}>
+          <div className="mx-auto" style={styles.tape} ref={tapeContainer2Refs}>
             {
-              tape2.map((tape, i) => <div key={i} style={(i == active2) ? styles.cellActive : styles.cell}>{tape}</div>)
+              tape2.map((tape, i) => <div key={i} ref={null} style={(i == active2) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
         </div>
