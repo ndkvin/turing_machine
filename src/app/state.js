@@ -227,41 +227,6 @@ const additions = {
   },
 
   "q2" : {
-    "B0B" : {
-      next: 'q2',
-      state:[
-        {
-          write: 'B',
-          move : 'S',  
-        },
-        {
-          write: 'B',
-          move : 'L',  
-        },
-        {
-          write: '0',
-          move : 'R',  
-        },
-      ]
-    },
-
-    "0BB" : {
-      next: 'q2',
-      state:[
-        {
-          write: '0',
-          move : 'R',  
-        },
-        {
-          write: 'B',
-          move : 'S',  
-        },
-        {
-          write: '1',
-          move : 'R',  
-        },
-      ]
-    },
 
     "0BB" : {
       next: 'q2',
