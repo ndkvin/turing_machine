@@ -1,4 +1,4 @@
-const binerMultitape = {
+const binary_multitape = {
     "q0": {
         "1BB":{
             next: 'q0',
@@ -413,4 +413,4 @@ const binerMultitape = {
 
 }
 
-export default binerMultitape;
+export default binary_multitape;

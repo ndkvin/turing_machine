@@ -1,11 +1,15 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react';
-import binerMultitape from '../../state/binerMultitape';
+import binary_multitape from '../../state/binary_multitape';
 import Link from 'next/link';
 
 
 const styles = {
+
+  container: {
+    marginBottom: "5rem", // Add margin bottom here
+  },
 
   tape: {
     display: "flex",
@@ -14,7 +18,7 @@ const styles = {
     height: "80px",
     border: "3px solid #eaeaea",
     borderRadius: "20px",
-    overflowX: "hidden",
+    overflowX: "scroll",
     overflowY: "hidden",
     background: "#ffffff",
     boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
@@ -156,7 +160,7 @@ export default function Home() {
     let val3 = tape3[active3];
     const concat = val1 + val2 + val3;
 
-    const next = binerMultitape[state][concat];
+    const next = binary_multitape[state][concat];
     const oldState = state;
 
     //set transition
@@ -228,12 +232,12 @@ export default function Home() {
   }
   return (
     <>
-      <div className="container">
+      <div className="container" style={styles.container}>
         <Link href="/" className="btn btn-primary mt-5">
           Home
         </Link>
         <h1 className="d-flex justify-content-center mt-5">
-          Binary Logarithm with Multitapes Turing Machine
+          Binary Logarithm Using Multitapes in Turing Machine
         </h1>
         <div className="row mt-5">
           <div className="col-6 mx-auto">

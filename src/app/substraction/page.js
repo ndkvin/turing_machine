@@ -5,33 +5,59 @@ import substraction from '../../state/substraction';
 import Link from 'next/link';
 
 const styles = {
+
+  container: {
+    marginBottom: "5rem", // Add margin bottom here
+  },
+
   tape: {
     display: "flex",
     alignItems: "center",
     width: "800px",
     height: "80px",
-    border: "1px solid black",
-    overflowX: "hidden",
+    border: "3px solid #eaeaea",
+    borderRadius: "20px",
+    overflowX: "scroll",
+    overflowY: "hidden",
+    background: "#ffffff",
+    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+    transition: "box-shadow 0.3s ease",
   },
   cell: {
     minWidth: "60px",
     height: "60px",
-    border: "1px solid black",
+    border: "2px solid #eaeaea",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    background: "#ffffff",
+    borderRadius: "10px",
+    margin: "2px",
+    transition: "background-color 0.3s ease",
+    color: "#333333",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
   },
   cellActive: {
-    backgroundColor: "green",
-    color: "white",
+    backgroundColor: "#0D6EFD",
+    color: "#ffffff",
     minWidth: "60px",
     height: "60px",
-    border: "1px solid black",
+    border: "1px solid #333333",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  }
-}
+    background: "#0D6EFD",
+    borderRadius: "10px",
+    margin: "2px",
+    transition: "background-color 0.3s ease",
+    color: "#ffffff",
+    fontWeight: "bold",
+    fontSize: "16px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+};
 
 export default function Home() {
   const [firstInput, setFirstInput] = useState(0)
@@ -187,7 +213,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="container">
+      <div className="container" style={styles.container}>
         <Link href="/" className="btn btn-primary mt-5">
           Home
         </Link>
