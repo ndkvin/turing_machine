@@ -21,6 +21,9 @@ export default function Home() {
           <Link className="btn btn-primary me-2" href="/binarySingletrack">
             Binary Singletrack
           </Link>
+          <Link className="btn btn-primary me-2" href="/squareroot">
+            Square Root
+          </Link>
         </div>
       </div>
     </>
