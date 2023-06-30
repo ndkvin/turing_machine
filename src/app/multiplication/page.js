@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react';
-import squareroot from '../../state/squareroot';
+import multiplication from '../../state/multiplication';
 import Link from 'next/link';
 
 
@@ -62,25 +62,20 @@ const styles = {
 
 export default function Home() {
   const [firstInput, setFirstInput] = useState(0)
+  const [secondInput, setSecondInput] = useState(0)
   const [result, setResult] = useState(0)
   const [state, setState] = useState('q0')
   const [active1, setActive1] = useState(2)
   const [active2, setActive2] = useState(2)
   const [active3, setActive3] = useState(2)
-  const [active4, setActive4] = useState(2)
-  const [active5, setActive5] = useState(2)
   const [tape1, setTape1] = useState([])
   const [tape2, setTape2] = useState([])
   const [tape3, setTape3] = useState([])
-  const [tape4, setTape4] = useState([])
-  const [tape5, setTape5] = useState([])
   const [isCalculate, setIsCalculate] = useState(false)
   const [speed, setSpeed] = useState(500)
   const tapeContainer1Refs = useRef(null);
   const tapeContainer2Refs = useRef(null);
   const tapeContainer3Refs = useRef(null);
-  const tapeContainer4Refs = useRef(null);
-  const tapeContainer5Refs = useRef(null);
   const [trasition, setTrasition] = useState("")
 
   const scrollLeft = (ref) => {
@@ -106,26 +101,17 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [isCalculate])
 
-  useEffect(() => {
-    if(state == 'q5') {
-      countResult()
-    }
-  }, [state])
-
   const reset = () => {
     setActive1(2)
     setActive2(2)
     setActive3(2)
-    setActive4(2)
-    setActive5(2)
     setTape1([])
     setTape2([]);
     setTape3([]);
-    setTape4([]);
-    setTape5([]);
     setState('q0')
     setResult(0)
     setFirstInput(0)
+    setSecondInput(0)
   }
 
   const createTape = () => {
@@ -133,13 +119,9 @@ export default function Home() {
     setActive1(2)
     setActive2(2)
     setActive3(2)
-    setActive4(2)
-    setActive5(2)
     setTape1(["B", "B"])
-    setTape2(["B", "B"]);
-    setTape3(["B", "B"]);
-    setTape4(["B", "B"]);
-    setTape5(["B", "B"]);
+    setTape2(["B", "B", "B"]);
+    setTape3(["B", "B", "B"]);
     setState('q0')
     setResult(0)
 
@@ -151,22 +133,25 @@ export default function Home() {
       }
       setTape2(prev => [...prev, "B"]);
       setTape3(prev => [...prev, "B"]);
-      setTape4(prev => [...prev, "B"]);
-      setTape5(prev => [...prev, "B"]);
     }
-
-    for (let i = 0; i < Math.abs(firstInput); i++) {
+    setTape1(prev => [...prev, "C"]);
+    for (let j = 0; j < Math.abs(secondInput); j++) {
+      if (secondInput > 0) {
+        setTape1(prev => [...prev, "1"]);
+      } else {
+        setTape1(prev => [...prev, "0"]);
+      }
+      setTape2(prev => [...prev, "B"]);
+      setTape3(prev => [...prev, "B"]);
+    }
+    for(let k = 0; k <  Math.abs(firstInput)* Math.abs(secondInput); k++){
       setTape1(prev => [...prev, "B"]);
       setTape2(prev => [...prev, "B"]);
       setTape3(prev => [...prev, "B"]);
-      setTape4(prev => [...prev, "B"]);
-      setTape5(prev => [...prev, "B"]);
     }
     setTape1(prev => [...prev, "B", "B"]);
     setTape2(prev => [...prev, "B", "B"]);
     setTape3(prev => [...prev, "B", "B"]);
-    setTape4(prev => [...prev, "B", "B"]);
-    setTape5(prev => [...prev, "B", "B"]);
   }
 
   const calculate = () => {
@@ -180,17 +165,12 @@ export default function Home() {
     let val1 = tape1[active1];
     let val2 = tape2[active2];
     let val3 = tape3[active3];
-    let val4 = tape4[active4];
-    let val5 = tape5[active5];
-    const concat = val1 + val2 + val3 + val4 + val5;
+    const concat = val1 + val2 + val3;
 
-    const next = squareroot[state][concat];
+    const next = multiplication[state][concat];
     const oldState = state;
-
     //set trasition
-    const write = `${next.state[0].write}${next.state[1].write}${next.state[2].write}${next.state[3].write}${next.state[4].write}`;
-    const move = `${next.state[0].move}${next.state[1].move}${next.state[2].move}${next.state[3].move}${next.state[4].move}`
-    const newTrasition = `${concat}/${write},${move},(${oldState}->${next.next})`;
+    const newTrasition = `${concat}/${next.state[0].write}${next.state[1].write}${next.state[2].write},${next.state[0].move}${next.state[1].move}${next.state[2].move},(${oldState}->${next.next})`;
     setTrasition(newTrasition)
 
     // write new tape 1
@@ -207,16 +187,6 @@ export default function Home() {
     const newTape3 = [...tape3];
     newTape3[active3] = next.state[2].write;
     setTape3(newTape3);
-
-    // write new tape 4
-    const newTape4 = [...tape4];
-    newTape4[active4] = next.state[3].write;
-    setTape4(newTape4);
-
-    // write new tape 5
-    const newTape5 = [...tape5];
-    newTape5[active5] = next.state[4].write;
-    setTape5(newTape5);
 
     // move tape 1
     if (next.state[0].move == "R") {
@@ -245,37 +215,25 @@ export default function Home() {
       scrollLeft(tapeContainer3Refs)
     }
 
-    // move tape 4
-    if (next.state[3].move == "R") {
-      setActive4(prev => prev + 1);
-      scrollRight(tapeContainer4Refs)
-    } else if (next.state[3].move == "L") {
-      setActive4(prev => prev - 1);
-      scrollLeft(tapeContainer4Refs)
-    }
-
-    // move tape 4
-    if (next.state[4].move == "R") {
-      setActive5(prev => prev + 1);
-      scrollRight(tapeContainer5Refs)
-    } else if (next.state[4].move == "L") {
-      setActive5(prev => prev - 1);
-      scrollLeft(tapeContainer5Refs)
-    }
 
     // set state to next state
     setState(next.next);
 
     // when in final state count the result
-    if (next.next == "q5") return
-    
+    if (next.next == "q4") {
+      countResult()
+      return
+    }
     setIsCalculate(!isCalculate)
   }
   const countResult = () => {
+
     let count = 0;
-    for (let i = 0; i < tape5.length; i++) {
-      if (tape5[i] == "1") {
+    for (let i = 0; i < tape2.length; i++) {
+      if (tape3[i] == "1") {
         count++;
+      } else if (tape3[i] == "0") {
+        count--;
       }
     }
     setResult(count)
@@ -287,7 +245,7 @@ export default function Home() {
           Home
         </Link>
         <h1 className="d-flex justify-content-center mt-5">
-          Square Root Turing Machine
+          Multiplication Turing Machine
         </h1>
         <div className="row mt-5">
           <div className="col-6 mx-auto">
@@ -299,6 +257,15 @@ export default function Home() {
                 aria-label="First Input"
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
+              />
+              <span className="input-group-text">+</span>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Second Input"
+                aria-label="Second Input"
+                value={secondInput}
+                onChange={e => setSecondInput(e.target.value)}
               />
             </div>
           </div>
@@ -329,7 +296,7 @@ export default function Home() {
               onClick={turingMachine}
 
               // disable if state is final state
-              disabled={state == "q5" ? true : false}
+              disabled={state == "q4" ? true : false}
             >
               Simulate
             </button>
@@ -390,16 +357,6 @@ export default function Home() {
           <div className="mx-auto" style={styles.tape} ref={tapeContainer3Refs}>
             {
               tape3.map((tape, i) => <div key={i} style={(i == active3) ? styles.cellActive : styles.cell}>{tape}</div>)
-            }
-          </div>
-          <div className="mx-auto" style={styles.tape} ref={tapeContainer4Refs}>
-            {
-              tape4.map((tape, i) => <div key={i} style={(i == active4) ? styles.cellActive : styles.cell}>{tape}</div>)
-            }
-          </div>
-          <div className="mx-auto" style={styles.tape} ref={tapeContainer5Refs}>
-            {
-              tape5.map((tape, i) => <div key={i} style={(i == active5) ? styles.cellActive : styles.cell}>{tape}</div>)
             }
           </div>
         </div>

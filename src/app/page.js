@@ -15,6 +15,9 @@ export default function Home() {
           <Link className="btn btn-primary me-2" href="/substraction">
             Substraction
           </Link>
+          <Link className="btn btn-primary me-2" href="/multiplication">
+            Multiplication
+          </Link>
           <Link className="btn btn-primary me-2" href="/binaryMultitape">
             Binary Multitapes
           </Link>
