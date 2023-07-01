@@ -1,605 +1,519 @@
 const power = {
   "q0": {
-    "0": {
-      next: 'q1',
+    "0BBB": {
+      next: 'q0',
       state: [
         {
-          write: 'B',
+          write: '0',
           move: 'R',
+        },
+        {
+          write: '0',
+          move: 'R',
+        },
+        {
+          write: '0',
+          move: 'R',
+        },
+        {
+          write: 'B',
+          move: 'S',
         }
       ]
     },
-    "1": {
-      next: 'q22',
+    "1BBB": {
+      next: 'q1',
       state: [
         {
-          write: 'B',
+          write: '1',
           move: 'R',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        },
+        {
+          write: 'B',
+          move: 'S',
         }
       ]
     }
   },
   "q1": {
-    "0": {
-      next: 'q1',
+    "000B": {
+      next: 'q2',
       state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
         {
           write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "1": {
-      next: 'q2',
-      state: [
-        {
-          write: '1',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q2": {
-    "B": {
-      next: 'q2',
-      state: [
+          move: 'S',
+        },
         {
           write: 'B',
-          move: 'R',
+          move: 'S',
         }
       ]
     },
-    "1": {
-      next: 'q7',
-      state: [
-        {
-          write: '1',
-          move: 'R',
-        }
-      ]
-    },
-    "0": {
+    "B00B": {
       next: 'q3',
       state: [
         {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q3": {
-    "0": {
-      next: 'q3',
-      state: [
-        {
-          write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "1": {
-      next: 'q4',
-      state: [
-        {
-          write: '1',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q4": {
-    "X": {
-      next: 'q4',
-      state: [
-        {
           write: 'X',
-          move: 'R',
-        }
-      ]
-    },
-    "B": {
-      next: 'q5',
-      state: [
+          move: 'S',
+        },
         {
           write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q11',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q5": {
-    "0": {
-      next: 'q5',
-      state: [
+          move: 'S',
+        },
         {
           write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q6',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q6": {
-    "0": {
-      next: 'q6',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "B": {
-      next: 'q2',
-      state: [
+          move: 'S',
+        },
         {
           write: 'B',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q7": {
-    "0": {
-      next: 'q7',
-      state: [
-        {
-          write: '0',
-          move: 'R',
+          move: 'S',
         }
       ]
     },
-    "X": {
-      next: 'q7',
-      state: [
-        {
-          write: 'X',
-          move: 'R',
-        }
-      ]
-    },
-    "B": {
-      next: 'q8',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q18',
-      state: [
-        {
-          write: 'X',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q8": {
-    "0": {
-      next: 'q8',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
+    "1BBB": {
       next: 'q9',
       state: [
         {
           write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q9": {
-    "B": {
-      next: 'q9',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q10',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    },
-  },
-  "q10": {
-    "0": {
-      next: 'q0',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "B": {
-      next: 'q0',
-      state: [
+          move: 'S',
+        },
         {
           write: 'B',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q11": {
-    "B": {
-      next: 'q11',
-      state: [
+          move: 'S',
+        },
         {
           write: 'B',
-          move: 'L',
-        }
-      ]
-    },
-    "0": {
-      next: 'q12',
-      state: [
-        {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    },
-    "X": {
-      next: 'q15',
-      state: [
-        {
-          write: 'X',
-          move: 'R',
-        }
-      ]
-    },
-    "1": {
-      next: 'q15',
-      state: [
-        {
-          write: '1',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q12": {
-    "B": {
-      next: 'q12',
-      state: [
-        {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    },
-    "1": {
-      next: 'q13',
-      state: [
-        {
-          write: '1',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q13": {
-    "0": {
-      next: 'q13',
-      state: [
-        {
-          write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "B": {
-      next: 'q14',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q14": {
-    "0": {
-      next: 'q14',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q11',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q15": {
-    "B": {
-      next: 'q15',
-      state: [
-        {
-          write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "1": {
-      next: 'q16',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q16": {
-    "0": {
-      next: 'q16',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "X": {
-      next: 'q16',
-      state: [
-        {
-          write: 'X',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q17',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q17": {
-    "0": {
-      next: 'q17',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "B": {
-      next: 'q2',
-      state: [
-        {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q18": {
-    "0": {
-      next: 'q18',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    },
-    "X": {
-      next: 'q18',
-      state: [
-        {
-          write: 'X',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q19',
-      state: [
-        {
-          write: '1',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q19": {
-    "0": {
-      next: 'q19',
-      state: [
-        {
-          write: 'X',
-          move: 'R',
-        }
-      ]
-    },
-    "X": {
-      next: 'q20',
-      state: [
-        {
-          write: 'X',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q20": {
-    "0": {
-      next: 'q20',
-      state: [
-        {
-          write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "B": {
-      next: 'q21',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q21": {
-    "0": {
-      next: 'q21',
-      state: [
-        {
-          write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "X": {
-      next: 'q21',
-      state: [
-        {
-          write: 'X',
-          move: 'L',
-        }
-      ]
-    },
-    "1": {
-      next: 'q21',
-      state: [
-        {
-          write: '1',
-          move: 'L',
-        }
-      ]
-    },
-    "B": {
-      next: 'q22',
-      state: [
-        {
-          write: '0',
-          move: 'L',
-        }
-      ]
-    }
-  },
-  "q22": {
-    "0": {
-      next: 'q22',
-      state: [
-        {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    },
-    "1": {
-      next: 'q23',
-      state: [
-        {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    }
-  },
-  "q23": {
-    "X": {
-      next: 'q23',
-      state: [
-        {
-          write: 'B',
-          move: 'R',
-        }
-      ]
-    },
-    "B": {
-      next: 'q25',
-      state: [
+          move: 'S',
+        },
         {
           write: '0',
           move: 'S',
         }
       ]
     },
-    "0": {
-      next: 'q24',
+    "100B": {
+      next: 'q9',
       state: [
         {
+          write: '1',
+          move: 'S',
+        },
+        {
           write: '0',
-          move: 'R',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
         }
       ]
     },
-    "1": {
-      next: 'q24',
+    "BBBB": {
+      next: 'q9',
       state: [
         {
           write: 'B',
-          move: 'R',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    },
+    "0BBB": {
+      next: 'q9',
+      state: [
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
         }
       ]
     }
   },
-  "q24": {
-    "0": {
-      next: 'q24',
+  "q2": {
+    "XX0B": {
+      next: 'q2',
       state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'L',
+        },
         {
           write: '0',
           move: 'R',
         }
       ]
     },
-    "1": {
-      next: 'q25',
+    "XXBB": {
+      next: 'q4',
       state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'R',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    }
+  },
+  "q3": {
+    "X00B": {
+      next: 'q3',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'L',
+        },
+        {
+          write: '0',
+          move: 'R',
+        }
+      ]
+    },
+    "X0BB": {
+      next: 'q9',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    }
+  },
+  "q4": {
+    "XXXB": {
+      next: 'q4',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'R',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    },
+    "XXBB": {
+      next: 'q5',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'L',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    }
+  },
+  "q5": {
+    "X00B": {
+      next: 'q2',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    },
+    "XB0B": {
+      next: 'q6',
+      state: [
+        {
+          write: 'X',
+          move: 'R',
+        },
+        {
+          write: 'B',
+          move: 'R',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        }
+      ]
+    },
+    "XX0B": {
+      next: 'q2',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    }
+  },
+  "q6": {
+    "0X00": {
+      next: 'q7',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        }
+      ]
+    },
+    "BX00": {
+      next: 'q9',
+      state: [
+        {
+          write: 'B',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        }
+      ]
+    }
+  },
+  "q7": {
+    "XX00": {
+      next: 'q7',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'R',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        }
+      ]
+    },
+    "XB00": {
+      next: 'q7',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'R',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        }
+      ]
+    },
+    "XB0B": {
+      next: 'q8',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'L',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    }
+  },
+  "q8": {
+    "X00B": {
+      next: 'q2',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
+        {
+          write: 'B',
+          move: 'S',
+        }
+      ]
+    },
+    "XX0B": {
+      next: 'q2',
+      state: [
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: 'X',
+          move: 'S',
+        },
+        {
+          write: '0',
+          move: 'S',
+        },
         {
           write: 'B',
           move: 'S',
