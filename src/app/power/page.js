@@ -74,7 +74,7 @@ export default function Home() {
   const scrollLeft = (ref) => {
     ref.current.scrollBy({
       top: 0,
-      left: -55,
+      left: -70,
       behavior: 'smooth',
     });
   };
@@ -82,7 +82,7 @@ export default function Home() {
   const scrollRight = (ref) => {
     ref.current.scrollBy({
       top: 0,
-      left: 55,
+      left: 70,
       behavior: 'smooth',
     });
   };
