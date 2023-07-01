@@ -258,7 +258,7 @@ export default function Home() {
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
               />
-              <span className="input-group-text">+</span>
+              <span className="input-group-text">*</span>
               <input
                 type="number"
                 className="form-control"
