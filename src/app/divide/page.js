@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react';
-import faktorial from '../../state/faktorial';
+import divide from '../../state/divide';
 import Link from 'next/link';
 
 const styles = {
@@ -61,6 +61,7 @@ const styles = {
 
 export default function Home() {
   const [firstInput, setFirstInput] = useState("")
+  const [secondInput, setSecondInput] = useState("")
   const [result, setResult] = useState(0)
   const [state, setState] = useState('q0')
   const [active1, setActive1] = useState(2)
@@ -73,7 +74,7 @@ export default function Home() {
   const scrollLeft = (ref) => {
     ref.current.scrollBy({
       top: 0,
-      left: -60,
+      left: -55,
       behavior: 'smooth',
     });
   };
@@ -81,7 +82,7 @@ export default function Home() {
   const scrollRight = (ref) => {
     ref.current.scrollBy({
       top: 0,
-      left: 60,
+      left: 55,
       behavior: 'smooth',
     });
   };
@@ -94,7 +95,7 @@ export default function Home() {
   }, [isCalculate])
 
   useEffect(() => {
-    if(state == 'qa') countResult()
+    if (state == 'qa') countResult()
   }, [state])
 
   const reset = () => {
@@ -113,37 +114,41 @@ export default function Home() {
     setState('q0')
     setResult(0)
 
+    if(firstInput < 0) {
+      setTape1(prev => [...prev, "1"]);
+    }
+
     for (let i = 0; i < Math.abs(firstInput); i++) {
       setTape1(prev => [...prev, "0"]);
     }
-    setTape1(prev => [...prev, "C"]);
 
-    for(let i = 0; i < countBlank(Math.abs(firstInput)); i++) {
-      setTape1(prev => [...prev, "B"]);
+    
+    setTape1(prev => [...prev, "C"]);
+    if(secondInput < 0) {
+      setTape1(prev => [...prev, "1"]);
     }
 
-    setTape1(prev => [...prev, "B", "B"]);
+    for (let i = 0; i < Math.abs(secondInput); i++) {
+      setTape1(prev => [...prev, "0"]);
+    }
+
+    setTape1(prev => [...prev, "1", "B", "B"]);
+    for(let i = 0; i < Math.abs(firstInput)*Math.abs(secondInput); i++) {
+      setTape1(prev => [...prev, "B"]);
+    }
   }
 
   const calculate = () => {
     createTape()
   }
-  const countBlank = (n) => {
-    let result = 1;
-  
-    for (let i = 2; i <= n; i++) {
-      result *= i;
-    }
-    
-    return result;
-  }
+
   const turingMachine = () => {
     if (tape1.length == 0) return
     // get value from tape 1 and tape 2
     let val1 = tape1[active1];
     const concat = val1;
     const oldState = state;
-    const next = faktorial[state][concat];
+    const next = divide[state][concat];
 
     const newTrasition = `${concat}/${next.state[0].write},${next.state[0].move},(${oldState}->${next.next})`;
     setTrasition(newTrasition)
@@ -167,7 +172,7 @@ export default function Home() {
 
     // when in final state count the result
     if (next.next == "qa") return
-    
+
 
     setIsCalculate(!isCalculate)
   }
@@ -182,6 +187,10 @@ export default function Home() {
         count++;
       }
     }
+
+    if(tape1.includes("1")) {
+      count = count * -1
+    }
     setResult(count)
   }
 
@@ -192,7 +201,7 @@ export default function Home() {
           Home
         </Link>
         <h1 className="d-flex justify-content-center mt-5">
-          Faktorial Turing Machine
+          Division Turing Machine
         </h1>
         <div className="row mt-5">
           <div className="col-6 mx-auto">
@@ -204,7 +213,15 @@ export default function Home() {
                 aria-label="First Input"
                 value={firstInput}
                 onChange={e => setFirstInput(e.target.value)}
-                min="0"
+              />
+              <span className="input-group-text">/</span>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Second Input"
+                aria-label="Second Input"
+                value={secondInput}
+                onChange={e => setSecondInput(e.target.value)}
               />
             </div>
           </div>

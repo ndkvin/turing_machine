@@ -10,15 +10,6 @@ const faktorial = {
       ]
     },
     "C": {
-      next: 'q20',
-      state: [
-        {
-          write: '0',
-          move: 'R',
-        }
-      ]
-    },
-    "C": {
       next: 'q4',
       state: [
         {
@@ -124,6 +115,15 @@ const faktorial = {
         {
           write: 'B',
           move: 'R',
+        }
+      ]
+    },
+    "C": {
+      next: 'qa',
+      state: [
+        {
+          write: '0',
+          move: 'S',
         }
       ]
     }
